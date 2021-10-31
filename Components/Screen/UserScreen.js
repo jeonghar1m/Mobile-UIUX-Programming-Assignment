@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar } from 'react-native-paper';
 
-function LandingScreen({navigation}) {
+function UserScreen() {
     return (
       <View style={styles.container}>
-        <Text>LandingScreen</Text>
-        <Button title="로그인페이지로 이동" onPress={() => navigation.navigate("MemberScreen")} />
+        <Avatar.Image size={100} source={require('../../assets/user_profile.png')} />
+        <Text>User Nickname</Text>
       </View>
     );
 }
@@ -19,4 +20,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default LandingScreen;
+export default UserScreen;

@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Button } from 'react-native-paper';
 
 const Drawer = createDrawerNavigator();
 
 function LoginScreen() {
     return (
       <View style={styles.container}>
-        <Text>LoginScreen</Text>
+        <Button icon="account-circle" mode="contained" onPress={() => console.log('Login')}>Login</Button>
       </View>
     )
   }
@@ -15,7 +16,7 @@ function LoginScreen() {
   function RegisterScreen() {
     return (
       <View style={styles.container}>
-        <Text>RegisterScreen</Text>
+        <Button icon="account-circle" mode="contained" onPress={() => console.log('Login')}>Register</Button>
       </View>
     )
   }
