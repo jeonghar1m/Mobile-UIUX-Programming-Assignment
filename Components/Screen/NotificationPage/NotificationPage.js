@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-function SettingScreen() {
+function NotificationPage() {
     return (
       <View style={styles.container}>
-        <Text>SettingScreen</Text>
+        <Text>NotificationScreen</Text>
       </View>
     );
 }
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default SettingScreen;
+export default NotificationPage;

@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Avatar } from 'react-native-paper';
 
-function NotificationScreen() {
+function UserPage() {
     return (
       <View style={styles.container}>
-        <Text>NotificationScreen</Text>
+        <Avatar.Image size={100} source={require('../../../assets/user_profile.png')} />
+        <Text>User Nickname</Text>
       </View>
     );
 }
@@ -18,4 +20,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default NotificationScreen;
+export default UserPage;

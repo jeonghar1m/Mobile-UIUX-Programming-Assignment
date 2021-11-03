@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 
 const Drawer = createDrawerNavigator();
 
-function LoginScreen() {
+function LoginPage() {
     return (
       <View style={styles.container}>
         <Button icon="account-circle" mode="contained" onPress={() => console.log('Login')}>Login</Button>
@@ -13,7 +13,7 @@ function LoginScreen() {
     )
   }
   
-  function RegisterScreen() {
+  function RegisterPage() {
     return (
       <View style={styles.container}>
         <Button icon="account-circle" mode="contained" onPress={() => console.log('Login')}>Register</Button>
@@ -21,11 +21,11 @@ function LoginScreen() {
     )
   }
 
-function MemberScreen() {
+function MemberPage() {
     return (
       <Drawer.Navigator>
-        <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-        <Drawer.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Drawer.Screen name="LoginScreen" component={LoginPage} />
+        <Drawer.Screen name="RegisterScreen" component={RegisterPage} />
       </Drawer.Navigator>
     )
 }
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default MemberScreen;
+export default MemberPage;
