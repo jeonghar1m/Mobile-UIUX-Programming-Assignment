@@ -4,13 +4,13 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabScreen from './Components/Screen/TabScreen';
 import MemberPage from './Components/Screen/MemberPage/MemberPage';
-import MovieDetailPage from './Components/Screen/MovieDetailPage/MovieDetailPage';
+import SearchResults from './Components/Screen/SearchPage/Results/SearchResults';
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'white',
+    primary: '#F9F9F9',
     accent: 'yellow',
   },
 };
@@ -24,7 +24,6 @@ export default function App() {
         <Stack.Navigator initialRouteName="Router" screenOptions={{headerShown: false}}>
           <Stack.Screen name="Tab" component={TabScreen} />
           <Stack.Screen name="MemberPage" component={MemberPage} />
-          <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

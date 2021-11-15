@@ -1,12 +1,25 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Platform } from 'react-native';
 import { movieApiBaseUrl, movieImageBaseUrl, api_key } from '../../Config';
+import { Card, Title } from 'react-native-paper';
 
 function LandingPage({navigation}) {
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState("Loading");
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(true);
+  const [NumColumns, setNumColumns] = useState(0);
+
+  const renderItems = ({ item }) => {
+    return (
+      <Card key={item.title} onPress={() => navigation.navigate("MovieDetailPage", {movieId: item.id})} style={{marginBottom: '5%', marginLeft: '5%', width: Platform.isPad ? '19%' : '42%'}}>
+        <Card.Cover source={{uri: item.poster_path}} />
+        <Card.Content>
+          <Title style={{textAlign: 'center'}}>{item.title}</Title>
+        </Card.Content>
+      </Card>
+    )
+  }
 
   const fetchMovies = useCallback(() => {
     const movieInfo = `${movieApiBaseUrl}popular?api_key=${api_key}&language=ko-KR&page=${page}`;
@@ -34,6 +47,7 @@ function LandingPage({navigation}) {
   useEffect(() => {
     if(isFetching)
       fetchMovies();
+    Platform.isPad ? setNumColumns(4) : setNumColumns(2);
   }, [page, fetchMovies, isFetching])
 
   if(mode === "Loading") {
@@ -52,16 +66,12 @@ function LandingPage({navigation}) {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {items.map((item, index) => (
-          <View style={{flexDirection:'row', alignItems:'center'}} key={index}>
-            <TouchableHighlight onPress={() => navigation.navigate("MovieDetailPage", {movieId: item.id})}>
-              <Image style={styles.movieImage} source={{uri: item.poster_path}} />
-            </TouchableHighlight>
-            <Text style={styles.movieTitle}>{item.title}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <FlatList 
+        data={items}
+        renderItem={renderItems}
+        keyExtractor={(item) => String(item.id)}
+        numColumns={NumColumns}
+      />
     </SafeAreaView>
   );
 }
@@ -69,7 +79,8 @@ function LandingPage({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexDirection: "row"
   },
   movieImage: {
     resizeMode: 'contain',

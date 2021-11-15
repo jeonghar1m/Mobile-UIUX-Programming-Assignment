@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
 import { Button } from 'react-native-paper';
 import { movieApiBaseUrl, movieImageBaseUrl, api_key, movieLang, countriesLang } from '../../Config';
+import MovieInfo from './Sections/MovieInfo';
+
 function MovieDetailPage({navigation, route}) {
   const [movieItems, setMovieItems] = useState([]);
   const [mode, setMode] = useState("Loading");
@@ -9,6 +11,8 @@ function MovieDetailPage({navigation, route}) {
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
 
   const movieInfo = `${movieApiBaseUrl}${route.params.movieId}?api_key=${api_key}&language=ko-KR`;
+
+  let release_date = 0;
 
   useEffect(() => {
       fetchItems();
@@ -27,6 +31,8 @@ function MovieDetailPage({navigation, route}) {
                 
                 for(let index = 0; index < data.production_countries.length; index++)
                     data.production_countries[index].name = countriesLang[data.production_countries[index].iso_3166_1];
+
+                release_date = new Date(data.release_date);
                 
                 setMovieItems(data);
                 setMode("Normal");
@@ -36,7 +42,6 @@ function MovieDetailPage({navigation, route}) {
             })
             .catch(err => {
                 setMode("404");
-                console.log(err);
             });
     }
   }
@@ -58,9 +63,7 @@ function MovieDetailPage({navigation, route}) {
   return (
     <SafeAreaView style={styles.container}>
         <Button icon="arrow-left" mode="contained" style={{width: 100}} onPress={() => navigation.goBack(null)}>뒤로</Button>
-        <Image style={styles.movieImage} source={{uri: movieItems.poster_path}} />
-        <Text>{movieItems.title}</Text>
-        <Text>{movieItems.overview}</Text>
+        <MovieInfo movie={movieItems} />
     </SafeAreaView>
   );
 }
@@ -69,16 +72,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  movieImage: {
-    resizeMode: 'contain',
-    width: 100,
-    height: 100,
-    marginTop: 24
-  },
-  movieTitle: {
-    marginLeft: 0,
-    fontWeight: 'bold'
-  }
 });
 
 export default MovieDetailPage;
