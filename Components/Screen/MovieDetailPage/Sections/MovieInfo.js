@@ -18,9 +18,9 @@ function MovieInfo(props) {
             </View>
             <View style={styles.infoArea}>
                 <Text style={{fontWeight: 'bold'}}>줄거리</Text>
-                <Text style={{marginTop: '3%'}}>{IsSeeMore ? `${movie.overview}` : `${movie.overview.slice(0, 100)}...`}
-                    {!IsSeeMore &&
-                        <Text onPress={seeMore}>[더보기]</Text>
+                <Text style={{marginTop: '3%'}}>{IsSeeMore ? `${movie.overview}` : `${movie.overview.slice(0, 100)}`}
+                    {(!IsSeeMore && movie.overview.length > 100) &&
+                        <Text onPress={seeMore}>...[더보기]</Text>
                     }
                 </Text>
             </View>
