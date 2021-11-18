@@ -1,6 +1,6 @@
 # 모바일UI/UX프로그래밍 프로젝트
 ## 개요
-졸업 작품(https://github.com/jeonghar1m/Graduation-Project)으로 진행 중인 프로젝트의 앱 버전
+졸업 작품(https://github.com/jeonghar1m/Graduation-Project) 으로 진행 중인 프로젝트의 앱 버전
 
 ## 사용 API
 https://themoviedb.org (TMDB)
