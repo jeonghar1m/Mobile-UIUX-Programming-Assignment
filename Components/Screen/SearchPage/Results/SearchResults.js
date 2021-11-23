@@ -13,7 +13,7 @@ function SearchResults({navigation, route}) {
       <Card key={item.title} onPress={() => navigation.navigate("MovieDetailPage", {movieId: item.id})} style={{marginBottom: '5%', marginLeft: '5%', width: Platform.isPad ? '19%' : '42%'}}>
       <Card.Cover source={{uri: item.backdrop_path}} />
       <Card.Content>
-          <Title style={{textAlign: 'center'}} key={item.title}>{item.title}</Title>
+          <Title style={{textAlign: 'center'}} key={item.title} numberOfLines={1}>{item.title}</Title>
       </Card.Content>
       </Card>
     )
