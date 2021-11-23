@@ -1,15 +1,42 @@
-import React, { useState } from 'react';
-import { StyleSheet, Platform, View, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Platform, SafeAreaView, TextInput, FlatList, Text, View } from 'react-native';
+import Autocomplete from 'react-native-autocomplete-input';
 import { Button } from 'react-native-paper';
+import { api_key } from '../../Config';
 
-function SearchingPage({navigation}) {
+function SearchPage({navigation}) {
     const [SearchValue, setSearchValue] = useState("");
+    const [Items, setItems] = useState([]);
+
+    const renderItems = ({ item }) => {
+      return (
+        <Text onPress={() => navigation.navigate("SearchResults", {SearchValue: SearchValue})}>{item.title}</Text>
+      )
+    }
+
+    useEffect(() => {
+      const searchTo = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&language=ko-KR&query=${SearchValue}`;
+      
+      fetch(searchTo)
+        .then(res => res.json())
+        .then(res => setItems(res.results))
+    }, [SearchValue])
 
     return (
-      <View style={styles.container}>
-        <TextInput style={styles.inputArea} onChangeText={(value) => setSearchValue(value)} />
-        <Button icon="magnify" mode="contained" onPress={() => navigation.navigate("SearchResults", {SearchValue: SearchValue})}>검색</Button>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.autocompleteContainer}>
+          <Autocomplete
+            data={Items}
+            value={SearchValue}
+            onChangeText={(value) => setSearchValue(value)}
+            flatListProps={{
+              keyExtractor: (_, idx) => idx,
+              renderItem: ({ item }) => <Text style={{marginBottom: '3%'}} onPress={() => navigation.navigate("SearchResults", {SearchValue: item.title})}>{item.title}</Text>,
+            }}
+          />
+        </SafeAreaView>
+        <Button icon="magnify" mode="contained" onPress={() => (SearchValue !== "") ? navigation.navigate("SearchResults", {SearchValue: SearchValue}) : alert('검색어를 입력하세요.')}>검색</Button>
+      </SafeAreaView>
     );
 }
 
@@ -26,7 +53,16 @@ const styles = StyleSheet.create({
       padding:5,
       margin:5,
       width: Platform.isPad ? 500 : 300
+    },
+    autocompleteContainer: {
+      flex: 1,
+      left: 0,
+      position: 'absolute',
+      right: 0,
+      top: '30%',
+      zIndex: 1,
+      justifyContent: 'center'
     }
   });
 
-export default SearchingPage;
+export default SearchPage;

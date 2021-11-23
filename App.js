@@ -4,7 +4,6 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabScreen from './Components/Screen/TabScreen';
 import MemberPage from './Components/Screen/MemberPage/MemberPage';
-import SearchResults from './Components/Screen/SearchPage/Results/SearchResults';
 
 const theme = {
   ...DefaultTheme,

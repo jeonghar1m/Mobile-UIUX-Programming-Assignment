@@ -54,7 +54,7 @@ function TabScreen() {
                 }}
             />
             <Tab.Screen 
-                name="SearchingPage" 
+                name="SearchPage" 
                 component={SearchPageScreen}
                 options={{
                     tabBarLabel: '검색', 
@@ -95,31 +95,6 @@ function TabScreen() {
             />
         </Tab.Navigator>
       )
-
-    // const [index, setIndex] = useState(0);
-    // const [routes] = useState([
-    //     { key: 'home', title: '홈', icon: 'home' },
-    //     { key: 'searching', title: '검색', icon: 'magnify' },
-    //     { key: 'notification', title: '알림', icon: 'bell' },
-    //     { key: 'setting', title: '설정', icon: 'cog' },
-    //     { key: 'user', title: '내 정보', icon: 'account' },
-    // ]);
-
-    // const renderScene = BottomNavigation.SceneMap({
-    //     home: LandingPage,
-    //     searching: SearchingPage,
-    //     notification: NotificationPage,
-    //     setting: SettingPage,
-    //     user: UserPage
-    // });
-
-    // return (
-    //     <BottomNavigation
-    //         navigationState={{ index, routes }}
-    //         onIndexChange={setIndex}
-    //         renderScene={renderScene}
-    //     />
-    // );
 }
 
 export default TabScreen;
