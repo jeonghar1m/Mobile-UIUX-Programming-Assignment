@@ -7,8 +7,12 @@ function LandingPage({navigation}) {
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState("Loading");
   const [page, setPage] = useState(1);
-  const [isFetching, setIsFetching] = useState(true);
   const [NumColumns, setNumColumns] = useState(0);
+
+  useEffect(() => {
+    fetchMovies();
+    Platform.isPad ? setNumColumns(4) : setNumColumns(2);
+  }, [])
 
   const renderItems = ({ item }) => {
     return (
@@ -21,34 +25,28 @@ function LandingPage({navigation}) {
     )
   }
 
-  const fetchMovies = useCallback(() => {
+  const fetchMovies = () => {
     const movieInfo = `${movieApiBaseUrl}popular?api_key=${api_key}&language=ko-KR&page=${page}`;
     
-    if(isFetching) {
-        fetch(movieInfo)
-          .then(res => res.json())
-          .then(res => {
-              for(let index = 0; index < res.results.length; index++) {
-                  res.results[index].poster_path = `${movieImageBaseUrl}original${res.results[index].poster_path}`;
-              }
-              
-              //setItems([...items, ...res.results]);
-              setItems(res.results);
-              setMode("Normal");
-              // setPage(res.page + 1);
-              setIsFetching(false);
-          })
-          .catch(err => {
-              setMode("404");
-          });
-    }
-  }, [api_key, isFetching, items, page])
+    fetch(movieInfo)
+    .then(res => res.json())
+    .then(res => {
+        for(let index = 0; index < res.results.length; index++) {
+            res.results[index].poster_path = `${movieImageBaseUrl}original${res.results[index].poster_path}`;
+        }
+        
+        setItems([...items, ...res.results]);
+        setMode("Normal");
+        setPage(res.page + 1);
+    })
+    .catch(err => {
+        setMode("404");
+    });
+  }
 
-  useEffect(() => {
-    if(isFetching)
-      fetchMovies();
-    Platform.isPad ? setNumColumns(4) : setNumColumns(2);
-  }, [page, fetchMovies, isFetching])
+  const loadMore = () => {
+    fetchMovies();
+  }
 
   if(mode === "Loading") {
     return (
@@ -69,8 +67,10 @@ function LandingPage({navigation}) {
       <FlatList 
         data={items}
         renderItem={renderItems}
-        keyExtractor={(item) => String(item.id)}
+        keyExtractor={(item) => String(item.title)}
         numColumns={NumColumns}
+        onEndReached={loadMore}
+        onEndReachedThreshold={1}
       />
     </SafeAreaView>
   );
