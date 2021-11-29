@@ -16,14 +16,16 @@ function MovieInfo(props) {
                 <Image style={styles.movieImage} source={{uri: movie.poster_path}} />
                 <Text style={styles.movieTitle}>{movie.title}</Text>
             </View>
-            <View style={styles.infoArea}>
-                <Text style={{fontWeight: 'bold'}}>줄거리</Text>
-                <Text style={{marginTop: '3%'}}>{IsSeeMore ? `${movie.overview}` : `${movie.overview.slice(0, 100)}`}
-                    {(!IsSeeMore && movie.overview.length > 100) &&
-                        <Text onPress={seeMore}>...[더보기]</Text>
-                    }
-                </Text>
-            </View>
+            {(movie.overview !== "") &&
+                <View style={styles.infoArea}>
+                    <Text style={{fontWeight: 'bold'}}>줄거리</Text>
+                    <Text style={{marginTop: '3%'}}>{IsSeeMore ? `${movie.overview}` : `${movie.overview.slice(0, 100)}`}
+                        {(!IsSeeMore && movie.overview.length > 100) &&
+                            <Text onPress={seeMore}>...[더보기]</Text>
+                        }
+                    </Text>
+                </View>
+            }
             <View style={styles.infoArea}>
                 <Text>
                     <Text style={{fontWeight: 'bold'}}>원제</Text>
