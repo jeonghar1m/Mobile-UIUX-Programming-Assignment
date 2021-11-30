@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Platform } from 'react-native';
 import { movieApiBaseUrl, movieImageBaseUrl, api_key } from '../../Config';
 import { Card, Title } from 'react-native-paper';
@@ -7,11 +7,10 @@ function LandingPage({navigation}) {
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState("Loading");
   const [page, setPage] = useState(1);
-  const [NumColumns, setNumColumns] = useState(0);
+  const [NumColumns, setNumColumns] = useState(Platform.isPad ? 4 : 2);
 
   useEffect(() => {
     fetchMovies();
-    Platform.isPad ? setNumColumns(4) : setNumColumns(2);
   }, [])
 
   const renderItems = ({ item }) => {
@@ -29,24 +28,21 @@ function LandingPage({navigation}) {
     const movieInfo = `${movieApiBaseUrl}popular?api_key=${api_key}&language=ko-KR&page=${page}`;
     
     fetch(movieInfo)
-    .then(res => res.json())
-    .then(res => {
-        for(let index = 0; index < res.results.length; index++) {
-            res.results[index].poster_path = `${movieImageBaseUrl}original${res.results[index].poster_path}`;
-        }
-        
-        setItems([...items, ...res.results]);
-        setMode("Normal");
-        setPage(res.page + 1);
-    })
-    .catch(err => {
-        setMode("404");
-    });
+      .then(res => res.json())
+      .then(res => {
+          for(let index = 0; index < res.results.length; index++) {
+              res.results[index].poster_path = `${movieImageBaseUrl}original${res.results[index].poster_path}`;
+          }
+          setItems([...items, ...res.results]);
+          setMode("Normal");
+          setPage(res.page + 1);
+      })
+      .catch(err => {
+          setMode("404");
+      });
   }
 
-  const loadMore = () => {
-    fetchMovies();
-  }
+  const loadMore = () => fetchMovies();
 
   if(mode === "Loading") {
     return (
