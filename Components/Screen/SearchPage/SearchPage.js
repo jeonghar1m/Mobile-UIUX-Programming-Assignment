@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Platform, SafeAreaView, TextInput, FlatList, Text, View } from 'react-native';
+import { StyleSheet, Platform, SafeAreaView, Text } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import { Button } from 'react-native-paper';
 import { api_key } from '../../Config';
@@ -7,12 +7,6 @@ import { api_key } from '../../Config';
 function SearchPage({navigation}) {
     const [SearchValue, setSearchValue] = useState("");
     const [Items, setItems] = useState([]);
-
-    const renderItems = ({ item }) => {
-      return (
-        <Text onPress={() => navigation.navigate("SearchResults", {SearchValue: SearchValue})}>{item.title}</Text>
-      )
-    }
 
     useEffect(() => {
       const searchTo = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&language=ko-KR&query=${SearchValue}`;
