@@ -44,7 +44,7 @@ function TabScreen() {
           labelStyle={{ fontSize: 12 }}
         >
             <Tab.Screen 
-                name="LandingPage"
+                name="Landing"
                 component={LandingPageScreen} 
                 options={{
                     tabBarLabel: '홈', 
@@ -54,7 +54,7 @@ function TabScreen() {
                 }}
             />
             <Tab.Screen 
-                name="SearchPage" 
+                name="Search" 
                 component={SearchPageScreen}
                 options={{
                     tabBarLabel: '검색', 
@@ -64,7 +64,7 @@ function TabScreen() {
                 }}
             />
             <Tab.Screen 
-                name="NotificationPage" 
+                name="Notification" 
                 component={NotificationPage} 
                 options={{
                     tabBarLabel: '알림', 
@@ -74,7 +74,7 @@ function TabScreen() {
                 }}
             />
             <Tab.Screen
-                name="SettingPage"
+                name="Setting"
                 component={SettingPage}
                 options={{
                     tabBarLabel: '설정', 
@@ -84,7 +84,7 @@ function TabScreen() {
                 }}
             />
             <Tab.Screen
-                name="UserpagePage"
+                name="Userpage"
                 component={UserPage}
                 options={{
                     tabBarLabel: '내 정보', 
