@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 
 function CreditsInfo(props) {
@@ -13,28 +13,28 @@ function CreditsInfo(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={{fontWeight: 'bold'}}>감독</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>감독</Text>
             {director && director.map(director => (
-                <View style={{flexDirection: 'row'}} key={director.name}>
+                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}} key={director.name}>
                     <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: director.profile_path}} />
                     <View style={{flexDirection: 'column', marginTop: '7%', marginLeft: '2%'}}>
                         <Text>{director.name}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
             ))}
-            <Text style={{fontWeight: 'bold'}}>출연</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>출연</Text>
             {credits && credits.cast.map((cast, index) => (
-                <View style={{flexDirection: 'row'}} key={cast.name}>
+                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}}>
                     {index < OutputCast &&
                         <>
                             <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: cast.profile_path}} />
-                            <View style={{flexDirection: 'column', marginTop: '7%', marginLeft: '2%'}}>
+                            <View style={{flexDirection: 'column', marginTop: '5%', marginLeft: '2%'}}>
                                 <Text>{cast.name}</Text>
                                 <Text>{cast.character} 역</Text>
                             </View>
                         </>
                     }
-                </View>
+                </TouchableOpacity>
             ))}
             <Button style={{backgroundColor: 'gray'}} onPress={() => setIsSeeMore(!isSeeMore)}>{!isSeeMore ? "더 보기" : "접기" }</Button>
         </SafeAreaView>
