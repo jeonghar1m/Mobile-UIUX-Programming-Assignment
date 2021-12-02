@@ -15,7 +15,7 @@ function CreditsInfo(props) {
         <SafeAreaView style={styles.container}>
             <Text style={{fontWeight: 'bold'}}>감독</Text>
             {director && director.map(director => (
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row'}} key={director.name}>
                     <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: director.profile_path}} />
                     <View style={{flexDirection: 'column', marginTop: '7%', marginLeft: '2%'}}>
                         <Text>{director.name}</Text>
@@ -24,7 +24,7 @@ function CreditsInfo(props) {
             ))}
             <Text style={{fontWeight: 'bold'}}>출연</Text>
             {credits && credits.cast.map((cast, index) => (
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row'}} key={cast.name}>
                     {index < OutputCast &&
                         <>
                             <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: cast.profile_path}} />

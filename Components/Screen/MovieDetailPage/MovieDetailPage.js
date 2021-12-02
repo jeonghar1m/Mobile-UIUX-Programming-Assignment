@@ -70,8 +70,6 @@ function MovieDetailPage({navigation, route}) {
             setDirectorsItems(director);
             setCreditsToggle(true);
             setisLoadingCredits(false);
-
-            console.log(director);
         })
         .catch(err => setMode("404"));
     }

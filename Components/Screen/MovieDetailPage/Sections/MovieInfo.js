@@ -54,7 +54,7 @@ function MovieInfo(props) {
                 <Text>
                     <Text style={{fontWeight: 'bold'}}>상영언어</Text>
                     {movie.spoken_languages.map((lang, index) => (
-                        <Text style={{marginLeft: '5%'}} key={lang.name}>{`${lang.name}${(index < movie.spoken_languages.length - 1) ? ',': ''}`}</Text>
+                        <Text style={{marginLeft: '5%'}} key={lang.name + index}>{`${lang.name}${(index < movie.spoken_languages.length - 1) ? ',': ''}`}</Text>
                     ))}
                 </Text>
                 <Text>
