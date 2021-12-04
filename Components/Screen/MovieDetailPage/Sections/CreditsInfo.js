@@ -24,7 +24,7 @@ function CreditsInfo(props) {
             ))}
             <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>출연</Text>
             {credits && credits.cast.map((cast, index) => (
-                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}}>
+                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}} key={cast.name}>
                     {index < OutputCast &&
                         <>
                             <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: cast.profile_path}} />

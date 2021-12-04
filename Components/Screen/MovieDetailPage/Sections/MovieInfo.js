@@ -12,10 +12,6 @@ function MovieInfo(props) {
     
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{flexDirection: 'row'}}>
-                <Image style={styles.movieImage} source={{uri: movie.poster_path}} />
-                <Text style={styles.movieTitle}>{movie.title}</Text>
-            </View>
             {(movie.overview !== "") &&
                 <View style={styles.infoArea}>
                     <Text style={{fontWeight: 'bold'}}>줄거리</Text>
@@ -69,18 +65,6 @@ function MovieInfo(props) {
 const styles = StyleSheet.create({
     container: {
       flex: 1
-    },
-    movieImage: {
-      resizeMode: 'contain',
-      width: 100,
-      height: 100,
-      marginTop: 24,
-    },
-    movieTitle: {
-      fontWeight: 'bold',
-      fontStyle: 'italic',
-      fontSize: 20,
-      marginTop: '25%'
     },
     infoArea: {
         backgroundColor: 'white', 

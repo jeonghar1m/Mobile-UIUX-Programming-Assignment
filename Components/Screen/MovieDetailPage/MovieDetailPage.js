@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Modal, Portal } from 'react-native-paper';
 import { movieApiBaseUrl, movieImageBaseUrl, api_key, movieLang, countriesLang } from '../../Config';
+import { WebView } from "react-native-webview";
 import MovieInfo from './Sections/MovieInfo';
 import CreditsInfo from './Sections/CreditsInfo';
 
@@ -9,14 +10,21 @@ function MovieDetailPage({navigation, route}) {
   const [movieItems, setMovieItems] = useState([]);
   const [creditsItems, setCreditsItems] = useState([]);
   const [directorsItems, setDirectorsItems] = useState([]);
+  const [TrailerItem, setTrailerItem] = useState("");
   const [creditsToggle, setCreditsToggle] = useState(false);
   const [mode, setMode] = useState("Loading");
   const [isFetching, setIsFetching] = useState(true);
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
-  const [isLoadingCredits, setisLoadingCredits] = useState(true);
+  const [isLoadingCredits, setIsLoadingCredits] = useState(true);
+  const [isLoadingTrailer, setIsLoadingTrailer] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isTrailerExist, setIsTrailerExist] = useState(true);
 
-  const movieInfo = `${movieApiBaseUrl}${route.params.movieId}?api_key=${api_key}&language=ko-KR`;
-  const creditsInfo = `${movieApiBaseUrl}${route.params.movieId}/credits?api_key=${api_key}`;
+  const movieId = route.params.movieId;
+
+  const movieInfo = `${movieApiBaseUrl}${movieId}?api_key=${api_key}&language=ko-KR`;
+  const creditsInfo = `${movieApiBaseUrl}${movieId}/credits?api_key=${api_key}`;
+  const trailerInfo = `${movieApiBaseUrl}${movieId}/videos?api_key=${api_key}&language=ko-KR`;
 
   let release_date = 0;
 
@@ -69,9 +77,15 @@ function MovieDetailPage({navigation, route}) {
             setCreditsItems(data);
             setDirectorsItems(director);
             setCreditsToggle(true);
-            setisLoadingCredits(false);
+            setIsLoadingCredits(false);
         })
         .catch(err => setMode("404"));
+    }
+    if(isLoadingTrailer) {
+      fetch(trailerInfo)
+        .then(res => res.json())
+        .then(data => setTrailerItem(`https://www.youtube.com/embed/${data.results[0].key}`))
+        .catch(err => setIsTrailerExist(false))
     }
   }
 
@@ -92,7 +106,21 @@ function MovieDetailPage({navigation, route}) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <Portal>
+          <Modal visible={isModalVisible} onDismiss={() => setIsModalVisible(false)} contentContainerStyle={{flex: 1, backgroundColor: '#fff', padding: 10, margin: '5%', width: '90%', height: '10%'}}>
+            <WebView style={{ margin: '5%', padding: 10 }} mixedContentMode='always' source={{ uri: TrailerItem }} useWebKit={true} scrollEnabled={false} domStorageEnabled={true} javaScriptEnabled={true} />
+          </Modal>
+        </Portal>
         <Button icon="arrow-left" mode="contained" style={{width: 100}} onPress={() => navigation.goBack(null)}>뒤로</Button>
+        <View style={{flexDirection: 'row'}}>
+          <Image style={styles.movieImage} source={{uri: movieItems.poster_path}} />
+          <Text style={styles.movieTitle}>{movieItems.title}</Text>
+        </View>
+        {isTrailerExist &&
+          <View style={{marginTop: '3%'}}>
+            <Button mode="contained" onPress={() => setIsModalVisible(true)}>트레일러</Button>
+          </View>
+        }
         <MovieInfo movie={movieItems} />
         {creditsToggle &&
           <CreditsInfo credits={creditsItems} director={directorsItems} />
@@ -105,6 +133,18 @@ function MovieDetailPage({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  movieImage: {
+    resizeMode: 'contain',
+    width: 100,
+    height: 100,
+    marginTop: 24,
+  },
+  movieTitle: {
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    fontSize: 20,
+    marginTop: '25%'
   },
 });
 
