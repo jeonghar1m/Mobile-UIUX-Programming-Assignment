@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Platform } from 'react-native';
 import { movieImageBaseUrl, api_key } from '../../../Config';
 import { Card, Title, Button } from 'react-native-paper';
@@ -6,7 +6,7 @@ import { Card, Title, Button } from 'react-native-paper';
 function SearchResults({navigation, route}) {
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState("Loading");
-  const [NumColumns, setNumColumns] = useState(0);
+  const [NumColumns, setNumColumns] = useState(Platform.isPad ? 4 : 2);
 
   const renderItems = ({ item }) => {
     return (
@@ -19,13 +19,12 @@ function SearchResults({navigation, route}) {
     )
   }
 
-  const fetchMovies = useCallback(() => {
+  const fetchMovies = () => {
     const searchTo = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&language=ko-KR&query=${route.params.SearchValue}`;
     
     fetch(searchTo)
         .then(res => res.json())
         .then(res => {
-            console.log(res.results);
             setItems(res.results);
 
             for(let index = 0; index < res.results.length; index++) {
@@ -36,11 +35,10 @@ function SearchResults({navigation, route}) {
         .catch(err => {
             setMode("404");
         });
-  })
+  }
 
   useEffect(() => {
     fetchMovies();
-    Platform.isPad ? setNumColumns(4) : setNumColumns(2);
   }, [])
 
   if(mode === "Loading") {
