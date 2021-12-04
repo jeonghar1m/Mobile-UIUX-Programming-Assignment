@@ -5,18 +5,20 @@ import { movieApiBaseUrl, movieImageBaseUrl, api_key, movieLang, countriesLang }
 import { WebView } from "react-native-webview";
 import MovieInfo from './Sections/MovieInfo';
 import CreditsInfo from './Sections/CreditsInfo';
+import SimilarInfo from './Sections/SimilarInfo';
 
 function MovieDetailPage({navigation, route}) {
   const [movieItems, setMovieItems] = useState([]);
   const [creditsItems, setCreditsItems] = useState([]);
   const [directorsItems, setDirectorsItems] = useState([]);
+  const [similarItems, setSimilarItems] = useState([]);
   const [TrailerItem, setTrailerItem] = useState("");
   const [creditsToggle, setCreditsToggle] = useState(false);
   const [mode, setMode] = useState("Loading");
-  const [isFetching, setIsFetching] = useState(true);
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
   const [isLoadingCredits, setIsLoadingCredits] = useState(true);
   const [isLoadingTrailer, setIsLoadingTrailer] = useState(true);
+  const [isLoadingSimilar, setIsLoadingSimilar] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTrailerExist, setIsTrailerExist] = useState(true);
 
@@ -25,6 +27,7 @@ function MovieDetailPage({navigation, route}) {
   const movieInfo = `${movieApiBaseUrl}${movieId}?api_key=${api_key}&language=ko-KR`;
   const creditsInfo = `${movieApiBaseUrl}${movieId}/credits?api_key=${api_key}`;
   const trailerInfo = `${movieApiBaseUrl}${movieId}/videos?api_key=${api_key}&language=ko-KR`;
+  const similarInfo = `${movieApiBaseUrl}${movieId}/similar?api_key=${api_key}&language=ko-KR`;
 
   let release_date = 0;
 
@@ -32,7 +35,7 @@ function MovieDetailPage({navigation, route}) {
       fetchItems();
   })
 
-  const fetchItems = async () => {
+  const fetchItems = () => {
     if(isLoadingMovie) {
         fetch(movieInfo)
             .then(res => res.json())
@@ -88,6 +91,15 @@ function MovieDetailPage({navigation, route}) {
         .catch(err => setIsTrailerExist(false))
     }
   }
+  if(isLoadingSimilar) {
+    fetch(similarInfo)
+      .then(res => res.json())
+      .then(data => {
+        setSimilarItems(data.results);
+        setIsLoadingSimilar(false);
+      })
+      .catch(err => setMode("404"))
+  }
 
   if(mode === "Loading") {
     return (
@@ -125,6 +137,7 @@ function MovieDetailPage({navigation, route}) {
         {creditsToggle &&
           <CreditsInfo credits={creditsItems} director={directorsItems} />
         }
+        <SimilarInfo items={similarItems} />
       </ScrollView>
     </SafeAreaView>
   );
