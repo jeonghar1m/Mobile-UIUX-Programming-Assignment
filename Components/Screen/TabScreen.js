@@ -9,6 +9,8 @@ import SettingPage from './SettingPage/SettingPage';
 import UserPage from './UserPage/UserPage';
 import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
 import SearchResults from './SearchPage/Results/SearchResults';
+import LoginPage from './MemberPage/LoginPage';
+import RegisterPage from './MemberPage/RegisterPage';
 // import { BottomNavigation } from 'react-native-paper';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -30,6 +32,15 @@ const SearchPageScreen = () => {
             <SearchStack.Screen name="SearchPage" component={SearchPage} />
             <SearchStack.Screen name="SearchResults" component={SearchResults} />
             <SearchStack.Screen name="MovieDetailPage" component={MovieDetailPage} />
+        </SearchStack.Navigator>
+    )
+}
+
+const MemberPageScreen = () => {
+    return (
+        <SearchStack.Navigator screenOptions={{headerShown: false}}>
+            <SearchStack.Screen name="LoginPage" component={LoginPage} />
+            <SearchStack.Screen name="RegisterPage" component={RegisterPage} />
         </SearchStack.Navigator>
     )
 }
@@ -83,11 +94,21 @@ function TabScreen() {
                     ),
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Userpage"
                 component={UserPage}
                 options={{
                     tabBarLabel: '내 정보', 
+                    tabBarIcon: () => (
+                        <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
+                    ),
+                }}
+            /> */}
+            <Tab.Screen
+                name="Member"
+                component={MemberPageScreen}
+                options={{
+                    tabBarLabel: '로그인', 
                     tabBarIcon: () => (
                         <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
                     ),

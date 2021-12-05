@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from 'react-native';
 import { Button, Modal, Portal } from 'react-native-paper';
 import { movieApiBaseUrl, movieImageBaseUrl, api_key, movieLang, countriesLang } from '../../Config';
