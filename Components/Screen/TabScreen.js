@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,8 +11,7 @@ import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
 import SearchResults from './SearchPage/Results/SearchResults';
 import LoginPage from './MemberPage/LoginPage';
 import RegisterPage from './MemberPage/RegisterPage';
-import { useSelector, useDispatch } from 'react-redux';
-import { auth } from '../../_actions/user_action';
+import { useSelector } from 'react-redux';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
