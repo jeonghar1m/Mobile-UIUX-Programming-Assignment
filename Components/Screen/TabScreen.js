@@ -12,6 +12,8 @@ import SearchResults from './SearchPage/Results/SearchResults';
 import LoginPage from './MemberPage/LoginPage';
 import RegisterPage from './MemberPage/RegisterPage';
 import { useSelector } from 'react-redux';
+import { Gravatar } from 'react-native-gravatar';
+import { StyleSheet } from 'react-native';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -114,7 +116,13 @@ function TabScreen() {
                     options={{
                         tabBarLabel: '내 정보', 
                         tabBarIcon: () => (
-                            <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
+                            <Gravatar options={{
+                                email: user.userData.email,
+                                parameters: {"size": "100"},
+                                secure: true
+                            }}
+                            style= {styles.roundedProfileImage}
+                            />
                         ),
                     }}
                 />
@@ -122,5 +130,12 @@ function TabScreen() {
         </Tab.Navigator>
       )
 }
+
+const styles = StyleSheet.create({
+    roundedProfileImage: {
+        width: 26, height: 26,
+        borderColor: 'white', borderRadius:50
+    }
+});
 
 export default TabScreen;
