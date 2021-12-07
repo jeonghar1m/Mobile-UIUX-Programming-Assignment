@@ -22,7 +22,7 @@ export function registerUser(dataToSubmit) {
 }
 
 export function auth() {
-    const request = axios.post('https://harim-graduation-project.herokuapp.com/api/users/auth')
+    const request = axios.get('https://harim-graduation-project.herokuapp.com/api/users/auth')
         .then(res => res.data)
 
     return {

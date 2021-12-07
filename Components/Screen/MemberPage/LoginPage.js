@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
+import * as Update from "expo-updates";
 
 function LoginPage({navigation}) {
     const dispatch = useDispatch();
@@ -30,7 +31,10 @@ function LoginPage({navigation}) {
 
         dispatch(loginUser(body))
         .then(res => {
-            if(res.payload.loginSuccess) navigation.navigate('LandingPage');
+            if(res.payload.loginSuccess) {
+                alert('로그인 완료');
+                Update.reloadAsync();
+            }
             else alert('ID 혹은 비밀번호가 맞지 않습니다.');
         })
     }

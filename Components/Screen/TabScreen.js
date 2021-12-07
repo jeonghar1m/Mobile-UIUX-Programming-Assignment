@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,41 +11,43 @@ import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
 import SearchResults from './SearchPage/Results/SearchResults';
 import LoginPage from './MemberPage/LoginPage';
 import RegisterPage from './MemberPage/RegisterPage';
-// import { BottomNavigation } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
+import { auth } from '../../_actions/user_action';
 
 const Tab = createMaterialBottomTabNavigator();
-const LandingStack = createStackNavigator();
-const SearchStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const LandingPageScreen = () => {
     return (
-        <LandingStack.Navigator screenOptions={{headerShown: false}}>
-            <LandingStack.Screen name="LandingPage" component={LandingPage} />
-            <LandingStack.Screen name="MovieDetailPage" component={MovieDetailPage} />
-        </LandingStack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="LandingPage" component={LandingPage} />
+            <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
+        </Stack.Navigator>
     )
 }
 
 const SearchPageScreen = () => {
     return (
-        <SearchStack.Navigator screenOptions={{headerShown: false}}>
-            <SearchStack.Screen name="SearchPage" component={SearchPage} />
-            <SearchStack.Screen name="SearchResults" component={SearchResults} />
-            <SearchStack.Screen name="MovieDetailPage" component={MovieDetailPage} />
-        </SearchStack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="SearchPage" component={SearchPage} />
+            <Stack.Screen name="SearchResults" component={SearchResults} />
+            <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
+        </Stack.Navigator>
     )
 }
 
 const MemberPageScreen = () => {
     return (
-        <SearchStack.Navigator screenOptions={{headerShown: false}}>
-            <SearchStack.Screen name="LoginPage" component={LoginPage} />
-            <SearchStack.Screen name="RegisterPage" component={RegisterPage} />
-        </SearchStack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="LoginPage" component={LoginPage} />
+            <Stack.Screen name="RegisterPage" component={RegisterPage} />
+        </Stack.Navigator>
     )
 }
 
 function TabScreen() {
+    const user = useSelector(state => state.user);
+
     return (
         <Tab.Navigator
           initialRouteName="LandingPage"
@@ -94,26 +96,30 @@ function TabScreen() {
                     ),
                 }}
             />
-            {/* <Tab.Screen
-                name="Userpage"
-                component={UserPage}
-                options={{
-                    tabBarLabel: '내 정보', 
-                    tabBarIcon: () => (
-                        <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
-                    ),
-                }}
-            /> */}
-            <Tab.Screen
-                name="Member"
-                component={MemberPageScreen}
-                options={{
-                    tabBarLabel: '로그인', 
-                    tabBarIcon: () => (
-                        <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
-                    ),
-                }}
-            />
+            {(user.userData && !user.userData.isAuth) &&
+                <Tab.Screen
+                    name="Member"
+                    component={MemberPageScreen}
+                    options={{
+                        tabBarLabel: '로그인', 
+                        tabBarIcon: () => (
+                            <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
+                        ),
+                    }}
+                />
+            }
+            {(user.userData && user.userData.isAuth) &&
+                <Tab.Screen
+                    name="Userpage"
+                    component={UserPage}
+                    options={{
+                        tabBarLabel: '내 정보', 
+                        tabBarIcon: () => (
+                            <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
+                        ),
+                    }}
+                />
+            }
         </Tab.Navigator>
       )
 }
