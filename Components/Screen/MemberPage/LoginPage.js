@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
-import * as Update from "expo-updates";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '../../../_actions/user_action';
 
 function LoginPage({navigation}) {
     const dispatch = useDispatch();
@@ -32,8 +33,9 @@ function LoginPage({navigation}) {
         dispatch(loginUser(body))
         .then(res => {
             if(res.payload.loginSuccess) {
-                alert('로그인 완료');
-                Update.reloadAsync();
+                AsyncStorage.setItem('userId', res.payload.userId);
+                dispatch(auth());
+                navigation.replace('TabScreen');
             }
             else alert('ID 혹은 비밀번호가 맞지 않습니다.');
         })

@@ -9,8 +9,6 @@ import SettingPage from './SettingPage/SettingPage';
 import UserPage from './UserPage/UserPage';
 import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
 import SearchResults from './SearchPage/Results/SearchResults';
-import LoginPage from './MemberPage/LoginPage';
-import RegisterPage from './MemberPage/RegisterPage';
 import { useSelector } from 'react-redux';
 import { Gravatar } from 'react-native-gravatar';
 import { StyleSheet } from 'react-native';
@@ -33,15 +31,6 @@ const SearchPageScreen = () => {
             <Stack.Screen name="SearchPage" component={SearchPage} />
             <Stack.Screen name="SearchResults" component={SearchResults} />
             <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
-        </Stack.Navigator>
-    )
-}
-
-const MemberPageScreen = () => {
-    return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="LoginPage" component={LoginPage} />
-            <Stack.Screen name="RegisterPage" component={RegisterPage} />
         </Stack.Navigator>
     )
 }
@@ -97,36 +86,22 @@ function TabScreen() {
                     ),
                 }}
             />
-            {(user.userData && !user.userData.isAuth) &&
-                <Tab.Screen
-                    name="Member"
-                    component={MemberPageScreen}
-                    options={{
-                        tabBarLabel: '로그인', 
-                        tabBarIcon: () => (
-                            <MaterialCommunityIcons name="account" color={"#fff"} size={26} />
-                        ),
-                    }}
-                />
-            }
-            {(user.userData && user.userData.isAuth) &&
-                <Tab.Screen
-                    name="Userpage"
-                    component={UserPage}
-                    options={{
-                        tabBarLabel: '내 정보', 
-                        tabBarIcon: () => (
-                            <Gravatar options={{
-                                email: user.userData.email,
-                                parameters: {"size": "100"},
-                                secure: true
-                            }}
-                            style= {styles.roundedProfileImage}
-                            />
-                        ),
-                    }}
-                />
-            }
+            <Tab.Screen
+                name="Userpage"
+                component={UserPage}
+                options={{
+                    tabBarLabel: '내 정보', 
+                    tabBarIcon: () => (
+                        <Gravatar options={{
+                            email: user.userData.email,
+                            parameters: {"size": "100"},
+                            secure: true
+                        }}
+                        style= {styles.roundedProfileImage}
+                        />
+                    ),
+                }}
+            />
         </Tab.Navigator>
       )
 }

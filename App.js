@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as ReduxProvider } from 'react-redux';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MainStack from './Components/Screen/MainStack';
+import DispatchStack from './Components/Screen/DispatchStack';
 import Reducer from './_reducers';
 import { applyMiddleware, createStore } from 'redux';
 import ReduxThunk from 'redux-thunk';
@@ -28,7 +28,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Router" screenOptions={{headerShown: false}}>
-            <Stack.Screen name="MainStack" component={MainStack} />
+            <Stack.Screen name="DispatchStack" component={DispatchStack} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
