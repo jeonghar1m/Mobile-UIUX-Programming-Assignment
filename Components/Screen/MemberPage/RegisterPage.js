@@ -145,6 +145,7 @@ function RegisterPage({navigation}) {
                 blurOnSubmit={false}
             />
             <View style={{flexDirection: 'row'}}>
+                <Button icon="account-key" mode="contained" style={{width: 100, marginRight: '3%'}} onPress={() => navigation.navigate('LoginPage')}>로그인</Button>
                 <Button icon="account-plus" mode="contained" style={{width: 100}} onPress={onSubmitHandler}>회원가입</Button>
             </View>
         </SafeAreaView>

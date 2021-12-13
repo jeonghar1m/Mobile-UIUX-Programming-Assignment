@@ -7,6 +7,7 @@ import SearchPage from './SearchPage/SearchPage';
 import NotificationPage from './NotificationPage/NotificationPage';
 import SettingPage from './SettingPage/SettingPage';
 import UserPage from './UserPage/UserPage';
+import FavoriteListPage from './UserPage/FavoriteListPage';
 import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
 import SearchResults from './SearchPage/Results/SearchResults';
 import { useSelector } from 'react-redux';
@@ -31,6 +32,15 @@ const SearchPageScreen = () => {
             <Stack.Screen name="SearchPage" component={SearchPage} />
             <Stack.Screen name="SearchResults" component={SearchResults} />
             <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
+        </Stack.Navigator>
+    )
+}
+
+const UserPageScreen = () => {
+    return (
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="UserPage" component={UserPage} />
+            <Stack.Screen name="FavoriteListPage" component={FavoriteListPage} />
         </Stack.Navigator>
     )
 }
@@ -88,7 +98,7 @@ function TabScreen() {
             />
             <Tab.Screen
                 name="Userpage"
-                component={UserPage}
+                component={UserPageScreen}
                 options={{
                     tabBarLabel: '내 정보', 
                     tabBarIcon: () => (

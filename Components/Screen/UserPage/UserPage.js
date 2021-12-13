@@ -25,7 +25,8 @@ function UserPage({ navigation }) {
           secure: true
         }} />
         <Text>{user.userData.nickname}</Text>
-        <Button icon="arrow-left" mode="contained" style={{width: 100}} onPress={logoutHanlder}>로그아웃</Button>
+        <Button icon="arrow-left" mode="contained" style={{width: 200, marginTop: '3%'}} onPress={logoutHanlder}>로그아웃</Button>
+        <Button icon="thumb-up" mode="contained" style={{width: 200, marginTop: '3%'}} onPress={() => navigation.navigate('FavoriteListPage')}>좋아하는 영화</Button>
       </View>
     );
   }

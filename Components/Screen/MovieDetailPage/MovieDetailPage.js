@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from 'react-n
 import { Button, Modal, Portal } from 'react-native-paper';
 import { movieApiBaseUrl, movieImageBaseUrl, api_key, movieLang, countriesLang } from '../../Config';
 import { WebView } from "react-native-webview";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MovieInfo from './Sections/MovieInfo';
 import CreditsInfo from './Sections/CreditsInfo';
 import SimilarInfo from './Sections/SimilarInfo';
+import Favorite from './Sections/Favorite';
 
 function MovieDetailPage({navigation, route}) {
   const [movieItems, setMovieItems] = useState([]);
@@ -21,6 +23,7 @@ function MovieDetailPage({navigation, route}) {
   const [isLoadingSimilar, setIsLoadingSimilar] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTrailerExist, setIsTrailerExist] = useState(true);
+  const [UserId, setUserId] = useState("");
 
   const movieId = route.params.movieId;
 
@@ -32,7 +35,11 @@ function MovieDetailPage({navigation, route}) {
   let release_date = 0;
 
   useEffect(() => {
-      fetchItems();
+    AsyncStorage.getItem('userId')
+      .then(res => {
+          setUserId(res);
+          fetchItems();
+      })
   })
 
   const fetchItems = () => {
@@ -128,6 +135,9 @@ function MovieDetailPage({navigation, route}) {
           <Image style={styles.movieImage} source={{uri: movieItems.poster_path}} />
           <Text style={styles.movieTitle}>{movieItems.title}</Text>
         </View>
+        {/* Favorite Button */}
+        <Favorite movieInfo={movieItems} movieId={movieId} userFrom={UserId} />
+        {/* Favorite Button End */}
         {isTrailerExist &&
           <View style={{marginTop: '3%'}}>
             <Button mode="contained" onPress={() => setIsModalVisible(true)}>트레일러</Button>
