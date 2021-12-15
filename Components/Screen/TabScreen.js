@@ -4,8 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LandingPage from './LandingPage/LandingPage';
 import SearchPage from './SearchPage/SearchPage';
-import NotificationPage from './NotificationPage/NotificationPage';
-import SettingPage from './SettingPage/SettingPage';
+// import NotificationPage from './NotificationPage/NotificationPage';
+// import SettingPage from './SettingPage/SettingPage';
 import UserPage from './UserPage/UserPage';
 import FavoriteListPage from './UserPage/FavoriteListPage';
 import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
@@ -76,7 +76,7 @@ function TabScreen() {
                     ),
                 }}
             />
-            <Tab.Screen 
+            {/* <Tab.Screen 
                 name="Notification" 
                 component={NotificationPage} 
                 options={{
@@ -95,7 +95,7 @@ function TabScreen() {
                         <MaterialCommunityIcons name="cog" color={"#fff"} size={26} />
                     ),
                 }}
-            />
+            /> */}
             <Tab.Screen
                 name="Userpage"
                 component={UserPageScreen}

@@ -8,12 +8,14 @@ import MovieInfo from './Sections/MovieInfo';
 import CreditsInfo from './Sections/CreditsInfo';
 import SimilarInfo from './Sections/SimilarInfo';
 import Favorite from './Sections/Favorite';
+import TheMovieDBComment from './Sections/TheMovieDBComment';
 
 function MovieDetailPage({navigation, route}) {
   const [movieItems, setMovieItems] = useState([]);
   const [creditsItems, setCreditsItems] = useState([]);
   const [directorsItems, setDirectorsItems] = useState([]);
   const [similarItems, setSimilarItems] = useState([]);
+  const [TheMovieDBReviews, setTheMovieDBReviews] = useState([]);
   const [TrailerItem, setTrailerItem] = useState("");
   const [creditsToggle, setCreditsToggle] = useState(false);
   const [mode, setMode] = useState("Loading");
@@ -23,6 +25,7 @@ function MovieDetailPage({navigation, route}) {
   const [isLoadingSimilar, setIsLoadingSimilar] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTrailerExist, setIsTrailerExist] = useState(true);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true);
   const [UserId, setUserId] = useState("");
 
   const movieId = route.params.movieId;
@@ -31,6 +34,7 @@ function MovieDetailPage({navigation, route}) {
   const creditsInfo = `${movieApiBaseUrl}${movieId}/credits?api_key=${api_key}`;
   const trailerInfo = `${movieApiBaseUrl}${movieId}/videos?api_key=${api_key}&language=ko-KR`;
   const similarInfo = `${movieApiBaseUrl}${movieId}/similar?api_key=${api_key}&language=ko-KR`;
+  const theMovieDBReviewsData = `${movieApiBaseUrl}${movieId}/reviews?api_key=${api_key}`;
 
   let release_date = 0;
 
@@ -107,6 +111,15 @@ function MovieDetailPage({navigation, route}) {
       })
       .catch(err => setMode("404"))
   }
+  if(isLoadingReviews) {
+    fetch(theMovieDBReviewsData)
+      .then(res => res.json())
+      .then(data => {
+        setTheMovieDBReviews(data.results);
+        setIsLoadingReviews(false);
+      })
+      .catch(err => setMode("404"))
+  }
 
   if(mode === "Loading") {
     return (
@@ -148,6 +161,14 @@ function MovieDetailPage({navigation, route}) {
           <CreditsInfo credits={creditsItems} director={directorsItems} />
         }
         <SimilarInfo items={similarItems} />
+        <View style={{flex: 1, marginTop: '5%', backgroundColor: '#fff'}}>
+          {(TheMovieDBReviews.length > 0) &&
+            <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>TheMovieDB 리뷰</Text>
+          }
+          {TheMovieDBReviews && TheMovieDBReviews.map(item => (
+            <TheMovieDBComment review={item} />
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
