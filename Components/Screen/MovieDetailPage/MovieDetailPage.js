@@ -8,7 +8,9 @@ import MovieInfo from './Sections/MovieInfo';
 import CreditsInfo from './Sections/CreditsInfo';
 import SimilarInfo from './Sections/SimilarInfo';
 import Favorite from './Sections/Favorite';
+import Comment from './Sections/Comment';
 import TheMovieDBComment from './Sections/TheMovieDBComment';
+import axios from 'axios';
 
 function MovieDetailPage({navigation, route}) {
   const [movieItems, setMovieItems] = useState([]);
@@ -27,8 +29,10 @@ function MovieDetailPage({navigation, route}) {
   const [isTrailerExist, setIsTrailerExist] = useState(true);
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
   const [UserId, setUserId] = useState("");
+  const [Comments, setComments] = useState([]);
 
   const movieId = route.params.movieId;
+  const variable = {movieId: movieId};
 
   const movieInfo = `${movieApiBaseUrl}${movieId}?api_key=${api_key}&language=ko-KR`;
   const creditsInfo = `${movieApiBaseUrl}${movieId}/credits?api_key=${api_key}`;
@@ -43,8 +47,12 @@ function MovieDetailPage({navigation, route}) {
       .then(res => {
           setUserId(res);
           fetchItems();
+          fetchTheMovieDBComments();
+          fetchComments();
       })
-  })
+  }, [])
+
+  const refreshFunction = (newComment) => setComments(Comments.concat(newComment));
 
   const fetchItems = () => {
     if(isLoadingMovie) {
@@ -101,24 +109,35 @@ function MovieDetailPage({navigation, route}) {
         .then(data => setTrailerItem(`https://www.youtube.com/embed/${data.results[0].key}`))
         .catch(err => setIsTrailerExist(false))
     }
+    if(isLoadingSimilar) {
+      fetch(similarInfo)
+        .then(res => res.json())
+        .then(data => {
+          setSimilarItems(data.results);
+          setIsLoadingSimilar(false);
+        })
+        .catch(err => setMode("404"))
+    }
   }
-  if(isLoadingSimilar) {
-    fetch(similarInfo)
-      .then(res => res.json())
-      .then(data => {
-        setSimilarItems(data.results);
-        setIsLoadingSimilar(false);
-      })
-      .catch(err => setMode("404"))
+
+  const fetchTheMovieDBComments = () => {
+    if(isLoadingReviews) {
+      fetch(theMovieDBReviewsData)
+        .then(res => res.json())
+        .then(data => {
+          setTheMovieDBReviews(data.results);
+          setIsLoadingReviews(false);
+        })
+        .catch(err => setMode("404"))
+    }
   }
-  if(isLoadingReviews) {
-    fetch(theMovieDBReviewsData)
-      .then(res => res.json())
-      .then(data => {
-        setTheMovieDBReviews(data.results);
-        setIsLoadingReviews(false);
+
+  const fetchComments = () => {
+    axios.post('https://harim-graduation-project.herokuapp.com/api/comment/getComment', variable)
+      .then(res => {
+        if(res.data.success)  setComments(res.data.comments);
+        else  alert('코멘트 정보를 가져오는데 실패했습니다.');
       })
-      .catch(err => setMode("404"))
   }
 
   if(mode === "Loading") {
@@ -158,7 +177,7 @@ function MovieDetailPage({navigation, route}) {
         }
         <MovieInfo movie={movieItems} />
         {creditsToggle &&
-          <CreditsInfo credits={creditsItems} director={directorsItems} />
+          <CreditsInfo credits={creditsItems} director={directorsItems} navigation={navigation} />
         }
         <SimilarInfo items={similarItems} navigation={navigation} />
         <View style={{flex: 1, marginTop: '5%', backgroundColor: '#fff'}}>
@@ -169,6 +188,9 @@ function MovieDetailPage({navigation, route}) {
             <TheMovieDBComment review={item} />
           ))}
         </View>
+        {/* User Comment */}
+        <Comment refreshFunction={refreshFunction} fetchItems={fetchItems} commentLists={Comments} movieId={movieId} />
+        {/* User Comment End */}
       </ScrollView>
     </SafeAreaView>
   );

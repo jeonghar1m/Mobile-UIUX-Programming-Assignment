@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'r
 import { Button } from 'react-native-paper';
 
 function CreditsInfo(props) {
-    const { credits, director } = props;
+    const { credits, director, navigation } = props;
     const [isSeeMore, setIsSeeMore] = useState(false);
     const [OutputCast, setOutputCast] = useState(0);
 
@@ -15,7 +15,7 @@ function CreditsInfo(props) {
         <SafeAreaView style={styles.container}>
             <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>감독</Text>
             {director && director.map(director => (
-                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}} key={director.name}>
+                <TouchableOpacity onPress={() => navigation.navigate("CreditDetailPage", {creditId: director.id})} style={{flexDirection: 'row'}} key={director.name}>
                     <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: director.profile_path}} />
                     <View style={{flexDirection: 'column', marginTop: '7%', marginLeft: '2%'}}>
                         <Text>{director.name}</Text>
@@ -24,7 +24,7 @@ function CreditsInfo(props) {
             ))}
             <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>출연</Text>
             {credits && credits.cast.map((cast, index) => (
-                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}} key={cast.name}>
+                <TouchableOpacity onPress={navigation.navigate("CreditDetailPage", {creditId: cast.id})} style={{flexDirection: 'row'}} key={cast.name}>
                     {index < OutputCast &&
                         <>
                             <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: cast.profile_path}} />

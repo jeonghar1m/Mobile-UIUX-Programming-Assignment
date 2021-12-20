@@ -9,6 +9,7 @@ import SearchPage from './SearchPage/SearchPage';
 import UserPage from './UserPage/UserPage';
 import FavoriteListPage from './UserPage/FavoriteListPage';
 import MovieDetailPage from './MovieDetailPage/MovieDetailPage';
+import CreditDetailPage from './CreditDetailPage/CreditDetailPage';
 import SearchResults from './SearchPage/Results/SearchResults';
 import { useSelector } from 'react-redux';
 import { Gravatar } from 'react-native-gravatar';
@@ -22,6 +23,7 @@ const LandingPageScreen = () => {
         <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="LandingPage" component={LandingPage} />
             <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
+            <Stack.Screen name="CreditDetailPage" component={CreditDetailPage} />
         </Stack.Navigator>
     )
 }
@@ -32,6 +34,7 @@ const SearchPageScreen = () => {
             <Stack.Screen name="SearchPage" component={SearchPage} />
             <Stack.Screen name="SearchResults" component={SearchResults} />
             <Stack.Screen name="MovieDetailPage" component={MovieDetailPage} />
+            <Stack.Screen name="CreditDetailPage" component={CreditDetailPage} />
         </Stack.Navigator>
     )
 }
