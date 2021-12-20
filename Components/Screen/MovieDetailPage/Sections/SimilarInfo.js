@@ -5,6 +5,7 @@ import { movieImageBaseUrl } from '../../../Config';
 
 function SimilarInfo(props) {
     const { items } = props;
+    const { navigation } = props;
     const [isSeeMore, setIsSeeMore] = useState(false);
     const [OutputSimilarMovie, setOutputSimilarMovie] = useState(0);
 
@@ -16,7 +17,7 @@ function SimilarInfo(props) {
         <SafeAreaView style={styles.container}>
             <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>비슷한 영화</Text>
             {items && items.map((item, index) => (
-                <TouchableOpacity onPress={() => alert('Test')} style={{flexDirection: 'row'}} key={item.title}>
+                <TouchableOpacity onPress={() => navigation.replace("MovieDetailPage", {movieId: item.id})} style={{flexDirection: 'row'}} key={item.title}>
                     {index < OutputSimilarMovie &&
                         <>
                             <Image style={{width: 70, height: 70, marginBottom: '4%'}} source={{uri: `${movieImageBaseUrl}original${item.poster_path}`}} />

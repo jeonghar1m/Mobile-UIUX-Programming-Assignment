@@ -160,7 +160,7 @@ function MovieDetailPage({navigation, route}) {
         {creditsToggle &&
           <CreditsInfo credits={creditsItems} director={directorsItems} />
         }
-        <SimilarInfo items={similarItems} />
+        <SimilarInfo items={similarItems} navigation={navigation} />
         <View style={{flex: 1, marginTop: '5%', backgroundColor: '#fff'}}>
           {(TheMovieDBReviews.length > 0) &&
             <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>TheMovieDB 리뷰</Text>
