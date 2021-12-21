@@ -55,7 +55,7 @@ function TabScreen() {
         <Tab.Navigator
           initialRouteName="LandingPage"
           activeColor="#f0edf6"
-          inactiveColor="#3e2465"
+          inactiveColor="#000000"
           barStyle={{ backgroundColor: '#000000' }}
           labelStyle={{ fontSize: 12 }}
         >
