@@ -156,7 +156,7 @@ function MovieDetailPage({navigation, route}) {
             <Button mode="contained" onPress={() => setIsModalVisible(true)}>트레일러</Button>
           </View>
         }
-        <MovieInfo movie={movieItems} />
+        <MovieInfo movie={movieItems} key={movieItems.original_title} />
         {creditsToggle &&
           <CreditsInfo credits={creditsItems} director={directorsItems} />
         }
@@ -166,7 +166,7 @@ function MovieDetailPage({navigation, route}) {
             <Text style={{fontWeight: 'bold', marginBottom: '2%'}}>TheMovieDB 리뷰</Text>
           }
           {TheMovieDBReviews && TheMovieDBReviews.map(item => (
-            <TheMovieDBComment review={item} />
+            <TheMovieDBComment review={item} key={item.content} />
           ))}
         </View>
       </ScrollView>
