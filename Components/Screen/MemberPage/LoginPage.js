@@ -87,9 +87,11 @@ const styles = StyleSheet.create({
     textFormTop: {
         backgroundColor: '#fff',
         borderColor: '#000',
-        borderWidth: 1,
+        borderWidth: 2,
         width: '70%',
-        marginBottom: '3%'
+        height: 30,
+        marginBottom: '3%',
+        borderRadius: 10
     },
     pageTitle: {
         fontWeight: 'bold',
