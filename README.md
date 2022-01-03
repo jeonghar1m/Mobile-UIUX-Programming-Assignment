@@ -9,4 +9,4 @@ https://themoviedb.org (TMDB)
 * Front-End: React Native (Expo)
 
 ## 개발 기간
-2021.10.28 ~ 현재
+2021.10.28 ~ 2021.12.29
